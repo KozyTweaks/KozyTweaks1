@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Kozy Tweaks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        nav {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #a0a0a0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ff0000;
+        }
+
+        /* Checkout Container */
+        .checkout-container {
+            max-width: 900px;
+            margin: 80px auto;
+            padding: 0 40px;
+        }
+
+        .checkout-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .checkout-header h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .checkout-header p {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+
+        /* Checkout Grid */
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        .summary-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .item-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .item-description {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+        }
+
+        .item-price {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #ff0000;
+        }
+
+        .summary-divider {
+            border-top: 2px solid rgba(255, 0, 0, 0.3);
+            margin: 30px 0;
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.3rem;
+            font-weight: 900;
+        }
+
+        .total-label {
+            color: #a0a0a0;
+        }
+
+        .total-amount {
+            color: #ff0000;
+        }
+
+        /* Plan Selection */
+        .plan-selection {
+            margin-bottom: 30px;
+        }
+
+        .plan-selection label {
+            display: block;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .plan-radio {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        /* Payment Section */
+        .payment-section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 40px;
+        }
+
+        .payment-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .paypal-container {
+            margin-bottom: 30px;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover {
+            border-color: rgba(255, 0, 0, 0.3);
+            background: rgba(255, 0, 0, 0.02);
+        }
+
+        .payment-method input {
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .payment-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #a0a0a0;
+            margin-top: 80px;
+        }
+
+        @media (max-width: 768px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .checkout-header h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">Kozy Tweaks</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#features">Features</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="support.html">Support</a></li>
+        </ul>
+    </nav>
+
+    <div class="checkout-container">
+        <div class="checkout-header">
+            <h1>Checkout</h1>
+            <p>Complete your purchase securely with PayPal</p>
+        </div>
+
+        <div class="checkout-grid">
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <h2 class="summary-title">Order Summary</h2>
+
+                <div class="plan-selection">
+                    <label>
+                        <input type="radio" name="plan" value="basic" class="plan-radio" checked onclick="updateOrderSummary('basic', 10, 'Basic Plan')">
+                        <span style="color: #fff;">Basic Plan - $10</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="plan" value="pro" class="plan-radio" onclick="updateOrderSummary('pro', 20, 'Pro Plan')">
+                        <span style="color: #fff;">Pro Plan - $20</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="plan" value="ultimate" class="plan-radio" onclick="updateOrderSummary('ultimate', 50, 'Ultimate Plan')">
+                        <span style="color: #fff;">Ultimate Plan - $50</span>
+                    </label>
+                </div>
+
+                <div class="summary-item">
+                    <div class="item-name">
+                        <div class="item-title" id="item-title">Basic Plan</div>
+                        <div class="item-description">Gaming Performance Optimization</div>
+                    </div>
+                    <div class="item-price" id="item-price">$10.00</div>
+                </div>
+
+                <div class="summary-divider"></div>
+
+                <div class="summary-total">
+                    <span class="total-label">Total</span>
+                    <span class="total-amount" id="total-amount">$10.00</span>
+                </div>
+            </div>
+
+            <!-- Payment Section -->
+            <div class="payment-section">
+                <h2 class="payment-title">Payment Method</h2>
+
+                <div class="paypal-container">
+                    <div id="paypal-button-container"></div>
+                </div>
+
+                <div style="margin-top: 30px; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.08);">
+                    <p style="color: #a0a0a0; font-size: 0.9rem; line-height: 1.6;">
+                        <strong>Secure Payment:</strong> Your payment is processed securely by PayPal. We don't store your credit card information on our servers.
+                    </p>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <p style="color: #a0a0a0; font-size: 0.85rem; text-align: center;">
+                        By completing this purchase, you agree to our <a href="#" style="color: #ff0000; text-decoration: none;">Terms of Service</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Kozy Tweaks. All rights reserved.</p>
+    </footer>
+
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AbXXwiHIg_ghKSRI1lVv2klscr0J7TM0N7BT4stNHcVSAFnANmlCF5S1NrTBO9z-T-40M7y2MVUNitks&currency=USD"></script>
+
+    <script>
+        let currentPlan = 'basic';
+        let currentAmount = 10;
+        let currentPlanName = 'Basic Plan';
+
+        function updateOrderSummary(plan, amount, planName) {
+            currentPlan = plan;
+            currentAmount = amount;
+            currentPlanName = planName;
+            
+            document.getElementById('item-title').textContent = planName;
+            document.getElementById('item-price').textContent = '$' + amount.toFixed(2);
+            document.getElementById('total-amount').textContent = '$' + amount.toFixed(2);
+            
+            // Re-render PayPal button with new amount
+            renderPayPalButton();
+        }
+
+        function renderPayPalButton() {
+            // Clear previous button
+            document.getElementById('paypal-button-container').innerHTML = '';
+            
+            paypal.Buttons({
+                style: {
+                    shape: 'rect',
+                    color: 'gold',
+                    layout: 'vertical',
+                    label: 'checkout',
+                    height: 50
+                },
+
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            description: `Kozy Tweaks - ${currentPlanName}`,
+                            amount: {
+                                currency_code: 'USD',
+                                value: currentAmount.toString()
+                            }
+                        }]
+                    });
+                },
+
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(orderData) {
+                        console.log('Payment completed:', orderData);
+                        
+                        // Show success page
+                        showSuccessPage(orderData);
+                    });
+                },
+
+                onError: function(err) {
+                    console.error('PayPal error:', err);
+                    alert('An error occurred during payment. Please try again.');
+                }
+            }).render('#paypal-button-container');
+        }
+
+        function showSuccessPage(orderData) {
+            document.querySelector('.checkout-container').innerHTML = `
+                <div style="text-align: center; margin: 80px 0;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">✓</div>
+                    <h1 style="font-size: 3rem; font-weight: 900; margin-bottom: 20px;">Payment Successful!</h1>
+                    <p style="color: #a0a0a0; font-size: 1.1rem; margin-bottom: 30px;">Thank you for purchasing ${currentPlanName}</p>
+                    
+                    <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 40px; max-width: 500px; margin: 0 auto;">
+                        <div style="margin-bottom: 20px;">
+                            <p style="color: #a0a0a0; margin-bottom: 5px;">Amount Paid</p>
+                            <p style="font-size: 2rem; font-weight: 900; color: #ff0000;">$${currentAmount.toFixed(2)}</p>
+                        </div>
+                        <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
+                            <p style="color: #a0a0a0; margin-bottom: 5px;">Order ID</p>
+                            <p style="font-weight: 600; word-break: break-all;">${orderData.id}</p>
+                        </div>
+                        <div>
+                            <p style="color: #a0a0a0; margin-bottom: 15px;">You will receive an email shortly with:</p>
+                            <ul style="color: #e0e0e0; text-align: left; display: inline-block;">
+                                <li style="margin-bottom: 10px;">✓ Your license key</li>
+                                <li style="margin-bottom: 10px;">✓ Download instructions</li>
+                                <li style="margin-bottom: 10px;">✓ Activation guide</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 40px;">
+                        <a href="index.html" style="display: inline-block; padding: 14px 40px; background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%); color: #fff; text-decoration: none; border-radius: 10px; font-weight: 600;">Return Home</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize PayPal button on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            renderPayPalButton();
+        });
+    </script>
+</body>
+</html>
