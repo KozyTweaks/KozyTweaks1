@@ -392,7 +392,7 @@
                     <div class="price">$10</div>
                     <div class="price-note">One-time payment</div>
                 </div>
-                <button class="cta-button" onclick="checkout(10, 'Basic')">Buy Basic</button>
+                <a href="checkout.html?plan=basic" class="cta-button">Buy Basic</a>
                 <ul class="features-list">
                     <li>20+ essential tweaks</li>
                     <li>Basic performance boost</li>
@@ -415,7 +415,7 @@
                     <div class="price">$20</div>
                     <div class="price-note">One-time payment</div>
                 </div>
-                <button class="cta-button" onclick="checkout(20, 'Pro')">Buy Pro</button>
+                <a href="checkout.html?plan=pro" class="cta-button">Buy Pro</a>
                 <ul class="features-list">
                     <li>50+ advanced tweaks</li>
                     <li>Auto-optimization</li>
@@ -439,7 +439,7 @@
                     <div class="price">$50</div>
                     <div class="price-note">Pay once, own forever</div>
                 </div>
-                <button class="cta-button primary" onclick="checkout(50, 'Ultimate')">Get Ultimate Access</button>
+                <a href="checkout.html?plan=ultimate" class="cta-button primary">Get Ultimate Access</a>
                 <ul class="features-list">
                     <li>All Pro features included</li>
                     <li>Lifetime updates</li>
@@ -512,49 +512,9 @@
         <p>&copy; 2026 Kozy Tweaks. All rights reserved.</p>
     </footer>
 
-    <script src="https://www.paypal.com/sdk/js?client-id=AbXXwiHIg_ghKSRI1lVv2klscr0J7TM0N7BT4stNHcVSAFnANmlCF5S1NrTBO9z-T-40M7y2MVUNitks&currency=USD"></script>
-
     <script>
         function toggleFaq(element) {
             element.classList.toggle('active');
-        }
-
-        function checkout(amount, planName) {
-            paypal.Buttons({
-                style: {
-                    shape: 'rect',
-                    color: 'gold',
-                    layout: 'vertical',
-                    label: 'paypal',
-                    height: 45
-                },
-
-                createOrder: function(data, actions) {
-                    return actions.order.create({
-                        purchase_units: [{
-                            description: `Kozy Tweaks - ${planName} Plan`,
-                            amount: {
-                                currency_code: 'USD',
-                                value: amount.toString()
-                            }
-                        }]
-                    });
-                },
-
-                onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(orderData) {
-                        // Successful payment
-                        console.log('Payment completed:', orderData);
-                        alert(`Thank you for purchasing the ${planName} plan!\n\nYour payment of $${amount} has been processed successfully.\n\nOrder ID: ${orderData.id}\n\nYou will receive an email shortly with your license key and download instructions.`);
-                        // Here you can send order data to your server to activate the license
-                    });
-                },
-
-                onError: function(err) {
-                    console.error('PayPal error:', err);
-                    alert('An error occurred during payment. Please try again.');
-                }
-            }).render('body');
         }
     </script>
 </body>
